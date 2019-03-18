@@ -1,4 +1,72 @@
 const express = require('express');
+const client = require('./db');
+
+client.connect((err, client) => {
+  if (err) throw err;
+
+  const db = client.db('mongo_db');
+  const collection = db.collection('posts');
+
+  // POST
+  const posts = [
+    {
+      title: 'test1',
+      content: 'hurray!',
+      number: 100,
+    },
+    {
+      title: 'test5',
+      content: 'hey!',
+      number: 102,
+    },
+  ];
+
+
+  // db.collection('posts').insertMany(posts)
+  // .then((res) => {
+  //   console.log(res);
+  // });
+
+  // UPDATE
+  // db.collection('posts').updateOne(
+  //   {title: 'test5'},
+  //   {
+  //     $set: {
+  //       title: 'test6'
+  //     }
+  //   }
+  // )
+
+  // DELETE
+  // db.collection('posts').deleteOne(
+  //   {title: 'test1'}
+  // );
+
+
+  // GET
+  let res;
+  db.collection('posts').find({
+      number: {
+        $gt: 50
+      }
+    })
+    .sort( { title: 1})
+    .toArray((err, data) => {
+      res = data;
+      console.log(res);
+    });
+
+
+  // DELETE
+
+
+  // PUT
+
+
+  // client.close();
+});
+
+
 
 const app = express();
 
